@@ -1,2 +1,5 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/StudentManagement.Domain/StudentManagement.Domain.csproj" />
+  </Folder>
 </Solution>

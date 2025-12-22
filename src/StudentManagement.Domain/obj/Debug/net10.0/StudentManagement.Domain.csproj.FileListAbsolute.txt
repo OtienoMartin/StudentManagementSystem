@@ -1,0 +1,12 @@
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\bin\Debug\net10.0\StudentManagement.Domain.deps.json
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\bin\Debug\net10.0\StudentManagement.Domain.dll
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\bin\Debug\net10.0\StudentManagement.Domain.pdb
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.AssemblyInfoInputs.cache
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.AssemblyInfo.cs
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.csproj.CoreCompileInputs.cache
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.sourcelink.json
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.dll
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\refint\StudentManagement.Domain.dll
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\StudentManagement.Domain.pdb
+D:\Wilhelm\StudentManagementSystem\src\StudentManagement.Domain\obj\Debug\net10.0\ref\StudentManagement.Domain.dll
