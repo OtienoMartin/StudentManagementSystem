@@ -6,8 +6,8 @@ namespace StudentManagement.Domain.Entities
     public class Enrollment
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
-        public Course Course { get; private set; }
-        public Grade Grade { get; private set; }
+        public Course Course { get; private set; } = null!;
+        public Grade Grade { get; private set; } = null!;
 
         private Enrollment() { }
 

@@ -6,8 +6,8 @@ namespace StudentManagement.Domain.Entities
     public class Student
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
-        public string FullName { get; private set; }
-        public string RegistrationNumber { get; private set; }
+        public string FullName { get; private set; } = null!;
+        public string RegistrationNumber { get; private set; } = null!;
 
         private readonly List<Enrollment> _enrollments = new();
         public IReadOnlyCollection<Enrollment> Enrollments => _enrollments.AsReadOnly();
