@@ -1,34 +1,20 @@
-using System;
-using System.Collections.Generic;
-
 namespace StudentManagement.Domain.Entities
 {
     public class Student
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
-        public string FullName { get; private set; } = null!;
-        public string RegistrationNumber { get; private set; } = null!;
 
-        private readonly List<Enrollment> _enrollments = new();
-        public IReadOnlyCollection<Enrollment> Enrollments => _enrollments.AsReadOnly();
+        public string FullName { get; private set; } = string.Empty;
+        public string RegistrationNumber { get; private set; } = string.Empty;
 
-        private Student() { } // For ORM or serialization
+        public List<Enrollment> Enrollments { get; private set; } = new();
+
+        private Student() { } // EF Core
 
         public Student(string fullName, string registrationNumber)
         {
-            if (string.IsNullOrWhiteSpace(fullName))
-                throw new ArgumentException("Student name cannot be empty");
-
-            if (string.IsNullOrWhiteSpace(registrationNumber))
-                throw new ArgumentException("Registration number cannot be empty");
-
             FullName = fullName;
             RegistrationNumber = registrationNumber;
-        }
-
-        public void Enroll(Enrollment enrollment)
-        {
-            _enrollments.Add(enrollment);
         }
     }
 }

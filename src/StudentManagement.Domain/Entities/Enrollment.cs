@@ -1,20 +1,24 @@
-using StudentManagement.Domain.ValueObjects;
-using System;
-
 namespace StudentManagement.Domain.Entities
 {
     public class Enrollment
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
+
+        public Guid StudentId { get; private set; }
+        public Student Student { get; private set; } = null!;
+
+        public Guid CourseId { get; private set; }
         public Course Course { get; private set; } = null!;
-        public Grade Grade { get; private set; } = null!;
 
-        private Enrollment() { }
+        public string Grade { get; private set; } = string.Empty;
 
-        public Enrollment(Course course, Grade grade)
+        private Enrollment() { } // Required by EF Core
+
+        public Enrollment(Guid studentId, Guid courseId, string grade)
         {
-            Course = course ?? throw new ArgumentNullException(nameof(course));
-            Grade = grade ?? throw new ArgumentNullException(nameof(grade));
+            StudentId = studentId;
+            CourseId = courseId;
+            Grade = grade;
         }
     }
 }
