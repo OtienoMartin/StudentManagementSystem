@@ -19,7 +19,7 @@ namespace StudentManagement.Infrastructure.Data
                 configuration.GetConnectionString("DefaultConnection");
 
             var options = new DbContextOptionsBuilder<StudentManagementDbContext>()
-                .UseSqlServer(connectionString)
+                .UseSqlite(connectionString)   // Use SQLite here
                 .Options;
 
             return new StudentManagementDbContext(options);
