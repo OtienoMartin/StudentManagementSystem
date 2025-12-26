@@ -1,7 +1,8 @@
-namespace StudentManagement.Application.DTOs
+namespace StudentManagement.Application.DTOs.Students
 {
-    public class CreateStudentDto
+    public class StudentDto
     {
+        public Guid Id { get; set; }
         public string FullName { get; set; } = null!;
         public string RegistrationNumber { get; set; } = null!;
     }

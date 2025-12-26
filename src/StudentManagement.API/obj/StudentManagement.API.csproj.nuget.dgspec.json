@@ -26,6 +26,9 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
+              "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Application\\StudentManagement.Application.csproj": {
+                "projectPath": "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Application\\StudentManagement.Application.csproj"
+              },
               "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Infrastructure\\StudentManagement.Infrastructure.csproj": {
                 "projectPath": "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Infrastructure\\StudentManagement.Infrastructure.csproj"
               }

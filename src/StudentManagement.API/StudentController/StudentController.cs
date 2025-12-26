@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
 using StudentManagement.Domain.Entities;
+using StudentManagement.Application.DTOs;  // Add this
 
 namespace StudentManagement.API.Controllers
 {
@@ -16,7 +17,6 @@ namespace StudentManagement.API.Controllers
             _context = context;
         }
 
-        // GET: api/Student
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -24,41 +24,32 @@ namespace StudentManagement.API.Controllers
             return Ok(students);
         }
 
-        // GET: api/Student/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var student = await _context.Students.FindAsync(id);
-            if (student == null)
-                return NotFound();
-
+            if (student == null) return NotFound();
             return Ok(student);
         }
 
-        // POST: api/Student
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Student student)
+        public async Task<IActionResult> Create(CreateStudentDto createStudentDto)
         {
-            if (student == null)
-                return BadRequest("Student data is null.");
+            var student = new Student(createStudentDto.FullName, createStudentDto.RegistrationNumber);
 
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction(nameof(GetById), new { id = student.Id }, student);
         }
 
-        // PUT: api/Student/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Student updatedStudent)
+        public async Task<IActionResult> Update(Guid id, UpdateStudentDto updateStudentDto)
         {
-            if (updatedStudent == null)
-                return BadRequest("Updated student data is null.");
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return NotFound();
 
-            if (id != updatedStudent.Id)
-                return BadRequest("ID mismatch.");
-
-            _context.Entry(updatedStudent).State = EntityState.Modified;
+            student.UpdateFullName(updateStudentDto.FullName);
+            student.UpdateRegistrationNumber(updateStudentDto.RegistrationNumber);
 
             try
             {
@@ -68,20 +59,17 @@ namespace StudentManagement.API.Controllers
             {
                 if (!await _context.Students.AnyAsync(s => s.Id == id))
                     return NotFound();
-
-                throw;
+                else throw;
             }
 
             return NoContent();
         }
 
-        // DELETE: api/Student/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var student = await _context.Students.FindAsync(id);
-            if (student == null)
-                return NotFound();
+            if (student == null) return NotFound();
 
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
