@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
 using StudentManagement.Domain.Entities;
+using StudentManagement.Application.DTOs.Courses;
 
 namespace StudentManagement.API.Controllers
 {
@@ -25,7 +26,7 @@ namespace StudentManagement.API.Controllers
         }
 
         // GET: api/Course/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var course = await _context.Courses.FindAsync(id);
@@ -35,29 +36,36 @@ namespace StudentManagement.API.Controllers
 
         // POST: api/Course
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Course course)
+        public async Task<IActionResult> Create([FromBody] CreateCourseDto createCourseDto)
         {
-            if (course == null)
+            if (createCourseDto == null)
                 return BadRequest("Course data is null.");
+
+            if (string.IsNullOrWhiteSpace(createCourseDto.Name))
+                return BadRequest("Course name is required.");
+
+            var course = new Course(createCourseDto.Name, createCourseDto.Description);
 
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
-            // Returns 201 Created with route to GET this newly created course
             return CreatedAtAction(nameof(GetById), new { id = course.Id }, course);
         }
 
         // PUT: api/Course/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Course updatedCourse)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCourseDto updateCourseDto)
         {
-            if (updatedCourse == null)
+            if (updateCourseDto == null)
                 return BadRequest("Updated course data is null.");
 
-            if (id != updatedCourse.Id)
-                return BadRequest("ID mismatch.");
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
+                return NotFound();
 
-            _context.Entry(updatedCourse).State = EntityState.Modified;
+            // Update entity properties using the DTO values
+            course.UpdateName(updateCourseDto.Name);
+            course.UpdateDescription(updateCourseDto.Description);
 
             try
             {
@@ -67,7 +75,6 @@ namespace StudentManagement.API.Controllers
             {
                 if (!await _context.Courses.AnyAsync(c => c.Id == id))
                     return NotFound();
-
                 throw;
             }
 
@@ -75,11 +82,12 @@ namespace StudentManagement.API.Controllers
         }
 
         // DELETE: api/Course/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var course = await _context.Courses.FindAsync(id);
-            if (course == null) return NotFound();
+            if (course == null)
+                return NotFound();
 
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();

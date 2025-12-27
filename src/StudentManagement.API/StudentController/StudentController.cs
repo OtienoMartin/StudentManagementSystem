@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
 using StudentManagement.Domain.Entities;
-using StudentManagement.Application.DTOs;  // Add this
+using StudentManagement.API.Contracts.Students;
 
 namespace StudentManagement.API.Controllers
 {
@@ -17,6 +17,7 @@ namespace StudentManagement.API.Controllers
             _context = context;
         }
 
+        // GET: api/student
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -24,52 +25,65 @@ namespace StudentManagement.API.Controllers
             return Ok(students);
         }
 
-        [HttpGet("{id}")]
+        // GET: api/student/{id}
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var student = await _context.Students.FindAsync(id);
-            if (student == null) return NotFound();
+
+            if (student == null)
+                return NotFound();
+
             return Ok(student);
         }
 
+        // POST: api/student
         [HttpPost]
-        public async Task<IActionResult> Create(CreateStudentDto createStudentDto)
+        public async Task<IActionResult> Create([FromBody] CreateStudentRequest request)
         {
-            var student = new Student(createStudentDto.FullName, createStudentDto.RegistrationNumber);
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            var student = new Student(request.FullName, request.RegistrationNumber);
 
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = student.Id }, student);
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = student.Id },
+                student
+            );
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, UpdateStudentDto updateStudentDto)
+        // PUT: api/student/{id}
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateStudentRequest request)
         {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
             var student = await _context.Students.FindAsync(id);
-            if (student == null) return NotFound();
 
-            student.UpdateFullName(updateStudentDto.FullName);
-            student.UpdateRegistrationNumber(updateStudentDto.RegistrationNumber);
+            if (student == null)
+                return NotFound();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Students.AnyAsync(s => s.Id == id))
-                    return NotFound();
-                else throw;
-            }
+            student.UpdateFullName(request.FullName);
+            student.UpdateRegistrationNumber(request.RegistrationNumber);
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        // DELETE: api/student/{id}
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var student = await _context.Students.FindAsync(id);
-            if (student == null) return NotFound();
+
+            if (student == null)
+                return NotFound();
 
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();

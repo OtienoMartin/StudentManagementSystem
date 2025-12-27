@@ -1,8 +1,0 @@
-namespace StudentManagement.Application.DTOs
-{
-    public class CreateStudentDto
-    {
-        public string FullName { get; set; } = null!;
-        public string RegistrationNumber { get; set; } = null!;
-    }
-}

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
 using StudentManagement.Domain.Entities;
+using StudentManagement.Application.DTOs.Enrollment; // Correct namespace for Enrollment DTOs
 
 namespace StudentManagement.API.Controllers
 {
@@ -29,7 +30,7 @@ namespace StudentManagement.API.Controllers
         }
 
         // GET: api/Enrollment/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var enrollment = await _context.Enrollments
@@ -45,10 +46,22 @@ namespace StudentManagement.API.Controllers
 
         // POST: api/Enrollment
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Enrollment enrollment)
+        public async Task<IActionResult> Create([FromBody] CreateEnrollmentDto createEnrollmentDto)
         {
-            if (enrollment == null)
+            if (createEnrollmentDto == null)
                 return BadRequest("Enrollment data is null.");
+
+            if (createEnrollmentDto.StudentId == Guid.Empty)
+                return BadRequest("StudentId is required.");
+            if (createEnrollmentDto.CourseId == Guid.Empty)
+                return BadRequest("CourseId is required.");
+            if (string.IsNullOrWhiteSpace(createEnrollmentDto.Grade))
+                return BadRequest("Grade is required.");
+
+            var enrollment = new Enrollment(
+                createEnrollmentDto.StudentId,
+                createEnrollmentDto.CourseId,
+                createEnrollmentDto.Grade);
 
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
@@ -57,16 +70,19 @@ namespace StudentManagement.API.Controllers
         }
 
         // PUT: api/Enrollment/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Enrollment updatedEnrollment)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEnrollmentDto updateEnrollmentDto)
         {
-            if (updatedEnrollment == null)
+            if (updateEnrollmentDto == null)
                 return BadRequest("Updated enrollment data is null.");
 
-            if (id != updatedEnrollment.Id)
-                return BadRequest("ID mismatch.");
+            var enrollment = await _context.Enrollments.FindAsync(id);
+            if (enrollment == null)
+                return NotFound();
 
-            _context.Entry(updatedEnrollment).State = EntityState.Modified;
+            enrollment.UpdateStudentId(updateEnrollmentDto.StudentId);
+            enrollment.UpdateCourseId(updateEnrollmentDto.CourseId);
+            enrollment.UpdateGrade(updateEnrollmentDto.Grade);
 
             try
             {
@@ -84,7 +100,7 @@ namespace StudentManagement.API.Controllers
         }
 
         // DELETE: api/Enrollment/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var enrollment = await _context.Enrollments.FindAsync(id);

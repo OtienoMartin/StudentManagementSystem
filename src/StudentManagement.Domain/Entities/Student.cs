@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace StudentManagement.Domain.Entities
 {
     public class Student
@@ -13,18 +16,22 @@ namespace StudentManagement.Domain.Entities
 
         public Student(string fullName, string registrationNumber)
         {
-            FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
-            RegistrationNumber = registrationNumber ?? throw new ArgumentNullException(nameof(registrationNumber));
+            UpdateFullName(fullName);
+            UpdateRegistrationNumber(registrationNumber);
         }
 
         public void UpdateFullName(string fullName)
         {
-            FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
+            if (string.IsNullOrWhiteSpace(fullName))
+                throw new ArgumentException("Full Name cannot be empty.", nameof(fullName));
+            FullName = fullName;
         }
 
         public void UpdateRegistrationNumber(string registrationNumber)
         {
-            RegistrationNumber = registrationNumber ?? throw new ArgumentNullException(nameof(registrationNumber));
+            if (string.IsNullOrWhiteSpace(registrationNumber))
+                throw new ArgumentException("Registration Number cannot be empty.", nameof(registrationNumber));
+            RegistrationNumber = registrationNumber;
         }
     }
 }
