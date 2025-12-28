@@ -4,5 +4,6 @@
     <Project Path="src/StudentManagement.Domain/StudentManagement.Domain.csproj" />
     <Project Path="src/StudentManagement.Infrastructure/StudentManagement.Infrastructure.csproj" />
   </Folder>
+  <Project Path="StudentManagement.API.Tests/StudentManagement.API.Tests.csproj" />
   <Project Path="StudentManagement.Tests/StudentManagement.Tests.csproj" />
 </Solution>
