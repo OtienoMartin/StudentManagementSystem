@@ -5,34 +5,38 @@ using Microsoft.Extensions.DependencyInjection;
 using StudentManagement.Infrastructure.Data;
 using System.Linq;
 
-public class CustomWebApplicationFactory
-    : WebApplicationFactory<Program>
+namespace StudentManagement.API.Tests.Infrastructure
 {
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
-        builder.ConfigureServices(services =>
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            // 🔴 REMOVE existing DbContext registrations
-            var dbContextDescriptor = services
-                .SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<StudentManagementDbContext>));
+            // Set environment to "Testing" so Program.cs skips SQLite registration
+            builder.UseEnvironment("Testing");
 
-            if (dbContextDescriptor != null)
+            builder.ConfigureServices(services =>
             {
-                services.Remove(dbContextDescriptor);
-            }
+                // Remove existing DbContext registrations (like SQLite)
+                var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<StudentManagementDbContext>));
+                if (descriptor != null)
+                {
+                    services.Remove(descriptor);
+                }
 
-            // ✅ ADD InMemory database for tests
-            services.AddDbContext<StudentManagementDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("StudentManagement_TestDb");
+                // Register InMemory DB for tests
+                services.AddDbContext<StudentManagementDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryStudentManagementTestDb");
+                });
+
+                var sp = services.BuildServiceProvider();
+
+                using var scope = sp.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<StudentManagementDbContext>();
+                db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
             });
-
-            // Build service provider & ensure DB exists
-            var sp = services.BuildServiceProvider();
-
-            using var scope = sp.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<StudentManagementDbContext>();
-            db.Database.EnsureCreated();
-        });
+        }
     }
 }

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StudentManagement.Infrastructure.Data;
+using StudentManagement.Application.DTOs.Enrollment;
 using StudentManagement.Domain.Entities;
-using StudentManagement.Application.DTOs.Enrollment; // Correct namespace for Enrollment DTOs
+using StudentManagement.Infrastructure.Data;
 
 namespace StudentManagement.API.Controllers
 {
@@ -17,7 +17,7 @@ namespace StudentManagement.API.Controllers
             _context = context;
         }
 
-        // GET: api/Enrollment
+        // GET: api/enrollment
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -29,7 +29,7 @@ namespace StudentManagement.API.Controllers
             return Ok(enrollments);
         }
 
-        // GET: api/Enrollment/{id}
+        // GET: api/enrollment/{id}
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -44,62 +44,49 @@ namespace StudentManagement.API.Controllers
             return Ok(enrollment);
         }
 
-        // POST: api/Enrollment
+        // POST: api/enrollment
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateEnrollmentDto createEnrollmentDto)
+        public async Task<IActionResult> Create([FromBody] CreateEnrollmentDto dto)
         {
-            if (createEnrollmentDto == null)
-                return BadRequest("Enrollment data is null.");
-
-            if (createEnrollmentDto.StudentId == Guid.Empty)
-                return BadRequest("StudentId is required.");
-            if (createEnrollmentDto.CourseId == Guid.Empty)
-                return BadRequest("CourseId is required.");
-            if (string.IsNullOrWhiteSpace(createEnrollmentDto.Grade))
-                return BadRequest("Grade is required.");
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
 
             var enrollment = new Enrollment(
-                createEnrollmentDto.StudentId,
-                createEnrollmentDto.CourseId,
-                createEnrollmentDto.Grade);
+                dto.StudentId,
+                dto.CourseId,
+                dto.Grade
+            );
 
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = enrollment.Id }, enrollment);
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = enrollment.Id },
+                new { id = enrollment.Id }
+            );
         }
 
-        // PUT: api/Enrollment/{id}
+        // PUT: api/enrollment/{id}
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEnrollmentDto updateEnrollmentDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEnrollmentDto dto)
         {
-            if (updateEnrollmentDto == null)
-                return BadRequest("Updated enrollment data is null.");
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
 
             var enrollment = await _context.Enrollments.FindAsync(id);
             if (enrollment == null)
                 return NotFound();
 
-            enrollment.UpdateStudentId(updateEnrollmentDto.StudentId);
-            enrollment.UpdateCourseId(updateEnrollmentDto.CourseId);
-            enrollment.UpdateGrade(updateEnrollmentDto.Grade);
+            enrollment.UpdateStudentId(dto.StudentId);
+            enrollment.UpdateCourseId(dto.CourseId);
+            enrollment.UpdateGrade(dto.Grade);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Enrollments.AnyAsync(e => e.Id == id))
-                    return NotFound();
-
-                throw;
-            }
-
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
-        // DELETE: api/Enrollment/{id}
+        // DELETE: api/enrollment/{id}
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {

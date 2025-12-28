@@ -2,6 +2,8 @@ D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\CoverletSourceRootsMapping_StudentManagement.API.Tests
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\testhost.dll
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\xunit.abstractions.dll
+D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.deps.json
+D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.runtimeconfig.json
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\BuildHost-net472\Microsoft.Build.Locator.dll
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\BuildHost-net472\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\BuildHost-net472\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.exe.config
@@ -48,8 +50,6 @@ D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\BuildHost-netcore\tr\System.CommandLine.resources.dll
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\BuildHost-netcore\zh-Hans\System.CommandLine.resources.dll
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\BuildHost-netcore\zh-Hant\System.CommandLine.resources.dll
-D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.deps.json
-D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.runtimeconfig.json
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\appsettings.Development.json
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\appsettings.json
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.staticwebassets.endpoints.json
@@ -528,10 +528,10 @@ D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.Application.dll
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.Domain.dll
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.Infrastructure.dll
+D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.pdb
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.Application.pdb
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.Domain.pdb
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.Infrastructure.pdb
-D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\bin\Debug\net10.0\StudentManagement.API.pdb
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\obj\Debug\net10.0\StudentManagement.API.Tests.csproj.AssemblyReference.cache
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\obj\Debug\net10.0\MvcTestingAppManifest.json
 D:\Wilhelm\StudentManagementSystem\StudentManagement.API.Tests\obj\Debug\net10.0\StudentManagement.API.Tests.GeneratedMSBuildEditorConfig.editorconfig

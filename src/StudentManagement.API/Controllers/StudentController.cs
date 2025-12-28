@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
 using StudentManagement.Domain.Entities;
-using StudentManagement.API.Contracts.Students;
+using StudentManagement.API.Contracts.Students; // Your DTOs namespace
 
 namespace StudentManagement.API.Controllers
 {
@@ -49,10 +49,11 @@ namespace StudentManagement.API.Controllers
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
+            // Return only the new student's Id to match test expectations
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = student.Id },
-                student
+                new { id = student.Id }
             );
         }
 

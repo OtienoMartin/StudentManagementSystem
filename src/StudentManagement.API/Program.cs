@@ -3,14 +3,15 @@ using StudentManagement.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DbContext
-builder.Services.AddDbContext<StudentManagementDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+var isTestEnvironment = builder.Environment.EnvironmentName == "Testing";
 
-// Add controllers
+if (!isTestEnvironment)
+{
+    builder.Services.AddDbContext<StudentManagementDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
+
 builder.Services.AddControllers();
-
-// Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,3 +28,5 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
