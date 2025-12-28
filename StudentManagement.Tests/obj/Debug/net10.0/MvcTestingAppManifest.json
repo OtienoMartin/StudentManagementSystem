@@ -1,0 +1,6 @@
+{
+  "StudentManagement.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.API",
+  "StudentManagement.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Application",
+  "StudentManagement.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Domain",
+  "StudentManagement.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Wilhelm\\StudentManagementSystem\\src\\StudentManagement.Infrastructure"
+}
