@@ -1,30 +1,49 @@
-public class Course
+using System;
+
+namespace StudentManagement.Domain.Entities
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
-    public string Name { get; private set; } = null!;
-    public string? Description { get; private set; }
-
-    private Course() { }
-
-    public Course(string name, string? description)
+    public class Course
     {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Course name cannot be empty");
+        public Guid Id { get; private set; } = Guid.NewGuid();
+        public string Name { get; private set; } = null!;
+        public string? Description { get; private set; }
+        public int Credits { get; private set; }
 
-        Name = name;
-        Description = description;
-    }
+        // EF Core
+        private Course() { }
 
-    public void UpdateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Course name cannot be empty");
+        public Course(string name, string? description, int credits)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Course name cannot be empty.");
 
-        Name = name;
-    }
+            if (credits <= 0)
+                throw new ArgumentException("Credits must be greater than zero.");
 
-    public void UpdateDescription(string? description)
-    {
-        Description = description;
+            Name = name;
+            Description = description;
+            Credits = credits;
+        }
+
+        public void UpdateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Course name cannot be empty.");
+
+            Name = name;
+        }
+
+        public void UpdateDescription(string? description)
+        {
+            Description = description;
+        }
+
+        public void UpdateCredits(int credits)
+        {
+            if (credits <= 0)
+                throw new ArgumentException("Credits must be greater than zero.");
+
+            Credits = credits;
+        }
     }
 }
