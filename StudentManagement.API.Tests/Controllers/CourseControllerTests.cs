@@ -8,8 +8,7 @@ using StudentManagement.API.Tests.Infrastructure;
 
 namespace StudentManagement.API.Tests.Controllers
 {
-    public class CourseControllerTests 
-        : IClassFixture<CustomWebApplicationFactory>
+    public class CourseControllerTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client;
 
@@ -45,6 +44,14 @@ namespace StudentManagement.API.Tests.Controllers
             var created = await response.Content.ReadFromJsonAsync<CreatedResponseDto>();
             Assert.NotNull(created);
             Assert.NotEqual(Guid.Empty, created!.Id);
+        }
+
+        // Optional: basic GET test to verify the GET endpoint works
+        [Fact]
+        public async Task GET_Courses_ReturnsOk()
+        {
+            var response = await _client.GetAsync("/api/course");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }

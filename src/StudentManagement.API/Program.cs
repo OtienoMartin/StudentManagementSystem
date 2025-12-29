@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
+using System.Text.Json.Serialization;  // Add this
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,14 @@ if (!isTestEnvironment)
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
 
-builder.Services.AddControllers();
+// Add JSON options to handle cycles
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64; // Optional: increase max depth if needed
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
