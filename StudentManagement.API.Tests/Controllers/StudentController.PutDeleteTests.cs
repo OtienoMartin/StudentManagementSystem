@@ -95,12 +95,4 @@ namespace StudentManagement.API.Tests.Controllers
             Assert.Equal(HttpStatusCode.NotFound, deleteResponse.StatusCode);
         }
     }
-
-    // DTO for deserialization in GET
-    public class StudentDto
-    {
-        public Guid Id { get; set; }
-        public string FullName { get; set; } = default!;
-        public string RegistrationNumber { get; set; } = default!;
-    }
 }
