@@ -32,17 +32,23 @@ namespace StudentManagement.API.Tests.Infrastructure
                     options.UseInMemoryDatabase(InMemoryDbName);
                 });
 
-                // Build the service provider and initialize the DB once (avoid recreating it for each test)
+                // Build the service provider
                 var sp = services.BuildServiceProvider();
 
+                // Create a scope to obtain a reference to the database context (StudentManagementDbContext)
                 using var scope = sp.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<StudentManagementDbContext>();
 
-                // Only ensure DB is created, but do NOT delete it to keep data between tests
-                if (db.Database.IsInMemory())
-                {
-                    db.Database.EnsureCreated();
-                }
+                // Ensure the database is created
+                db.Database.EnsureCreated();
+
+                // Optional: Clear all data before each test run to avoid conflicts
+                // WARNING: Only do this if you want tests isolated from each other
+                // Remove all entities from each DbSet manually or recreate the database
+                db.Courses.RemoveRange(db.Courses);
+                db.Students.RemoveRange(db.Students);
+                db.Enrollments.RemoveRange(db.Enrollments);
+                db.SaveChanges();
             });
         }
     }
